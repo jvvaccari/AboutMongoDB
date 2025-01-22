@@ -52,7 +52,7 @@ function ClientCard({ cards }: { cards: ICardData[] }) {
                   {card.email}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {card.status}
+                  {card.status ? "Ativo" : "Inativo"}
                 </Typography>
               </CardContent>
             </CardActionArea>
