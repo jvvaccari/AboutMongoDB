@@ -1,0 +1,17 @@
+npm init -y
+npm i typescript --save-dev
+tsc --init
+npm i fastify @fastify/cors -> framework para desenvolvimento backend
+npm i tsx -> para transpilar os códigos de ts para js,pois ts é somente em ambiente de desenvolvimento
+npm install @types/node --save-dev
+
+--bd--
+
+npm install prisma --save-dev
+npm install @prisma/client
+npx prisma generate
+npx prisma studio
+
+-- server -- 
+
+npx ts-node ./src/server.ts
