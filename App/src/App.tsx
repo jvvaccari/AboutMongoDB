@@ -1,28 +1,88 @@
+import ClientRegister from "./components/CustomerRegister";
+import CustomerCard from "./components/CustomerCard";
+import { Container } from "@mui/material";
+import { ICustomerData } from "./interfaces/ICustomerData";
 import { useState, useEffect } from "react";
-import ClientCard from "./components/ClientCard";
-import { ICardData } from "./interfaces/ICardData";
-import { listCustomers } from "./services/customerService";
+import {
+  listCustomers,
+  updateCustomer,
+  deleteCustomer,
+} from "./services/customerService";
 
 function App() {
-  const [cards, setCards] = useState<ICardData[]>([]);
+  const [customer, setCustomer] = useState<ICustomerData[]>([]);
+
+  const fetchCustomer = async () => {
+    try {
+      const data = await listCustomers();
+      setCustomer(data);
+    } catch (error) {
+      console.log("Erro ao listar clientes.", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchCustomers = async () => {
-      try {
-        const data = await listCustomers();
-        setCards(data);
-      } catch (error) {
-        console.error("Erro ao buscar clientes:", error);
-      }
-    };
-
-    fetchCustomers();
+    fetchCustomer();
   }, []);
 
+  const addCustomer = (newCustomer: ICustomerData) => {
+    setCustomer((prevCustomer) => [...prevCustomer, newCustomer]);
+  };
+
+  const handleDeleteCustomer = async (email: string) => {
+    try {
+      await deleteCustomer(email);
+      setCustomer((prevCustomer) =>
+        prevCustomer.filter((customer) => customer.email !== email)
+      );
+    } catch (error) {
+      console.log("Erro ao excluir cliente:", error);
+    }
+  };
+
+  const handleUpdateCustomer = async (updatedCustomer: {
+    email: string;
+    newName: string;
+    newEmail: string;
+  }) => {
+    if (updatedCustomer.newName && updatedCustomer.newEmail) {
+      try {
+        const updatedCustomerData = await updateCustomer(updatedCustomer);
+        setCustomer((prevCustomer) =>
+          prevCustomer.map((customer) =>
+            customer.email === updatedCustomer.email
+              ? { ...customer, ...updatedCustomerData }
+              : customer
+          )
+        );
+      } catch (error) {
+        console.log("Erro ao atualizar cliente:", error);
+      }
+    } else {
+      console.log("Erro: 'newName' ou 'newEmail' estão indefinidos.");
+    }
+  };
+
   return (
-    <div className="app">
-      <ClientCard cards={cards} />{" "}
-    </div>
+    <Container
+      maxWidth="lg"
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        bgcolor: "offwhite",
+      }}
+    >
+      <div className="app">
+        <ClientRegister onAddCustomer={addCustomer} />
+        <CustomerCard
+          cards={customer}
+          onDeleteCustomer={handleDeleteCustomer}
+          onUpdateCustomer={handleUpdateCustomer}
+        />
+      </div>
+    </Container>
   );
 }
 

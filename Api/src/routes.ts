@@ -17,10 +17,6 @@ export async function routes(
     return { message: "Welcome to the API!" };
   });
 
-  fastify.get("/test", async (req: FastifyRequest, rep: FastifyReply) => {
-    return { ok: true };
-  });
-
   fastify.post("/customer", async (req: FastifyRequest, rep: FastifyReply) => {
     return new CreateCustomerController().handle(req, rep);
   });
@@ -42,14 +38,19 @@ export async function routes(
   fastify.put(
     "/customer/:email",
     async (req: FastifyRequest, rep: FastifyReply) => {
+      console.log("entrei aqui.");
+
       const { email } = req.params as { email: string };
-      const { name, newEmail } = req.body as { name: string; newEmail: string };
+
+      const { newName, newEmail } = req.body as { newName: string; newEmail: string };
 
       const customerController = new UpdateCustomerController();
+
       return customerController.handle(
-        { ...req, body: { name, newEmail, email } },
+        { ...req, body: { newName, newEmail, email } },
         rep
       );
     }
-  );
+);
+
 }

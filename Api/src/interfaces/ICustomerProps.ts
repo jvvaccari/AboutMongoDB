@@ -1,5 +1,6 @@
 export interface ICustomerProps {
-    name: string,
-    email: string,
-    newEmail?: string
+  name?: string;
+  email: string;
+  newEmail?: string;
+  newName?: string;
 }
