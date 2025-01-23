@@ -38,7 +38,6 @@ export async function routes(
   fastify.put(
     "/customer/:email",
     async (req: FastifyRequest, rep: FastifyReply) => {
-      console.log("entrei aqui.");
 
       const { email } = req.params as { email: string };
 
