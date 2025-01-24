@@ -3,6 +3,11 @@ import CustomerCard from "./components/CustomerCard";
 import { Container } from "@mui/material";
 import { ICustomerData } from "./interfaces/ICustomerData";
 import { useState, useEffect } from "react";
+import {
+  listCustomers,
+  deleteCustomer,
+  updateCustomer,
+} from "./services/CustomerService";
 
 function App() {
   const [customerList, setCustomerList] = useState<ICustomerData[]>([]);
