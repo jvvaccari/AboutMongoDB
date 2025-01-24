@@ -1,21 +1,16 @@
-import ClientRegister from "./components/CustomerRegister";
+import CustomerRegister from "./components/CustomerRegister";
 import CustomerCard from "./components/CustomerCard";
 import { Container } from "@mui/material";
 import { ICustomerData } from "./interfaces/ICustomerData";
 import { useState, useEffect } from "react";
-import {
-  listCustomers,
-  updateCustomer,
-  deleteCustomer,
-} from "./services/customerService";
 
 function App() {
-  const [customer, setCustomer] = useState<ICustomerData[]>([]);
+  const [customerList, setCustomerList] = useState<ICustomerData[]>([]);
 
   const fetchCustomer = async () => {
     try {
-      const data = await listCustomers();
-      setCustomer(data);
+      const list = await listCustomers();
+      setCustomerList(list);
     } catch (error) {
       console.log("Erro ao listar clientes.", error);
     }
@@ -26,13 +21,13 @@ function App() {
   }, []);
 
   const addCustomer = (newCustomer: ICustomerData) => {
-    setCustomer((prevCustomer) => [...prevCustomer, newCustomer]);
+    setCustomerList((prevCustomer) => [...prevCustomer, newCustomer]);
   };
 
   const handleDeleteCustomer = async (email: string) => {
     try {
       await deleteCustomer(email);
-      setCustomer((prevCustomer) =>
+      setCustomerList((prevCustomer) =>
         prevCustomer.filter((customer) => customer.email !== email)
       );
     } catch (error) {
@@ -48,7 +43,7 @@ function App() {
     if (updatedCustomer.newName && updatedCustomer.newEmail) {
       try {
         const updatedCustomerData = await updateCustomer(updatedCustomer);
-        setCustomer((prevCustomer) =>
+        setCustomerList((prevCustomer) =>
           prevCustomer.map((customer) =>
             customer.email === updatedCustomer.email
               ? { ...customer, ...updatedCustomerData }
@@ -75,9 +70,9 @@ function App() {
       }}
     >
       <div className="app">
-        <ClientRegister onAddCustomer={addCustomer} />
+        <CustomerRegister onAddCustomer={addCustomer} />
         <CustomerCard
-          cards={customer}
+          cards={customerList}
           onDeleteCustomer={handleDeleteCustomer}
           onUpdateCustomer={handleUpdateCustomer}
         />

@@ -30,12 +30,11 @@ export const createCustomer = async (newClient: ICustomerData): Promise<ICustome
   }
 }
 
-export const deleteCustomer = async (email: string): Promise<ICustomerData> => {
+export const deleteCustomer = async (email: string): Promise<void> => {
   try{
     const encodedEmail = encodeURIComponent(email);
     const rep = await api.delete(`/customer/${encodedEmail}`);
     console.log("Cliente deletado com sucesso:", rep.data);
-    return rep.data;
   }catch(error){
     if (error instanceof Error) {
       console.error("Erro ao deletar cliente:", error.message);

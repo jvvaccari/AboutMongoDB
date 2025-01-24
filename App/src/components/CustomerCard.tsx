@@ -14,24 +14,15 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-
-interface CustomerCardProps {
-  cards: ICustomerData[];
-  onDeleteCustomer: (email: string) => Promise<void>;
-  onUpdateCustomer: (updatedCustomer: {
-    email: string;
-    newName: string;
-    newEmail: string;
-  }) => Promise<void>;
-}
+import { ICustomerCardProps } from "../interfaces/ICustomerCardProps";
 
 function CustomerCard({
   cards,
   onDeleteCustomer,
   onUpdateCustomer,
-}: CustomerCardProps) {
+}: ICustomerCardProps) {
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
-  const [open, setOpen] = React.useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [editedCustomer, setEditedCustomer] = useState<ICustomerData | null>(
     null
   );
@@ -110,9 +101,23 @@ function CustomerCard({
                   right: 6,
                 }}
               >
-                <EditIcon onClick={(e) => handleUpdate(card.email, e)} />
+                <EditIcon
+                  onClick={(e) => handleUpdate(card.email, e)}
+                  sx={{
+                    transition: "transform 0.3s ease",
+                    ":hover": {
+                      transform: "scale(1.1)",
+                    },
+                  }}
+                />
                 <DeleteIcon
-                  sx={{ color: "red" }}
+                  sx={{
+                    color: "red",
+                    transition: "transform 0.3s ease",
+                    ":hover": {
+                      transform: "scale(1.1)",
+                    },
+                  }}
                   onClick={(e) => handleDelete(card.email, e)}
                 />
               </Box>

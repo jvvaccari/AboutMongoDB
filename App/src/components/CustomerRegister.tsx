@@ -1,9 +1,7 @@
-import { Button } from "@mui/material";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import { Button, TextField, Box } from "@mui/material";
 import { useState } from "react";
 import { ICustomerData } from "../interfaces/ICustomerData";
-import { createCustomer } from "../services/customerService";
+import { createCustomer } from "../services/CustomerService";
 
 interface CustomerRegisterProps {
   onAddCustomer: (newCustomer: ICustomerData) => void;
