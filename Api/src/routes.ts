@@ -13,9 +13,6 @@ export async function routes(
   fastify: FastifyInstance,
   options: FastifyPluginOptions
 ) {
-  fastify.get("/", async (req: FastifyRequest, rep: FastifyReply) => {
-    return { message: "Welcome to the API!" };
-  });
 
   fastify.post("/customer", async (req: FastifyRequest, rep: FastifyReply) => {
     return new CreateCustomerController().handle(req, rep);
