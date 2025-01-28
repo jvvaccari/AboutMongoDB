@@ -15,8 +15,8 @@ const start = async () => {
   await app.register(routes);
   await app.register(fastifyFormbody); 
   try {
-    await app.listen({ port: 3333 });
-    console.log("Server is running on http://localhost:3333");
+    await app.listen({ port: 5721 });
+    console.log("Server is running on http://localhost:5721");
   } catch (error) {
     app.log.error(error);
     process.exit(1);
